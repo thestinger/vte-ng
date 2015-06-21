@@ -6541,6 +6541,28 @@ vte_terminal_get_cursor_position(VteTerminal *terminal,
 	}
 }
 
+/**
+ * vte_terminal_set_cursor_position:
+ * @terminal: a #VteTerminal
+ * @column: the new cursor column
+ * @row: the new cursor row
+ *
+ * Set the location of the cursor.
+ */
+void
+vte_terminal_set_cursor_position(VteTerminal *terminal,
+				 long column, long row)
+{
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
+
+	_vte_invalidate_cursor_once(terminal, FALSE);
+	terminal->pvt->cursor.col = column;
+	terminal->pvt->cursor.row = row;
+	_vte_invalidate_cursor_once(terminal, FALSE);
+	_vte_check_cursor_blink(terminal);
+	vte_terminal_queue_cursor_moved(terminal);
+}
+
 /* Place the selected text onto the clipboard.  Do this asynchronously so that
  * we get notified when the selection we placed on the clipboard is replaced. */
 static void
