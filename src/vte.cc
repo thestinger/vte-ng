@@ -127,7 +127,6 @@ static char *vte_terminal_get_text_maybe_wrapped(VteTerminal *terminal,
 						 gpointer data,
 						 GArray *attributes,
 						 gboolean include_trailing_spaces);
-static void _vte_terminal_disconnect_pty_read(VteTerminal *terminal);
 static void _vte_terminal_disconnect_pty_write(VteTerminal *terminal);
 static void vte_terminal_stop_processing (VteTerminal *terminal);
 
@@ -3353,9 +3352,10 @@ static void mark_input_source_invalid(VteTerminal *terminal)
 	_vte_debug_print (VTE_DEBUG_IO, "removed poll of vte_terminal_io_read\n");
 	terminal->pvt->pty_input_source = 0;
 }
-static void
-_vte_terminal_connect_pty_read(VteTerminal *terminal)
+void
+vte_terminal_connect_pty_read(VteTerminal *terminal)
 {
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
 	if (terminal->pvt->pty_channel == NULL) {
 		return;
 	}
@@ -3407,9 +3407,10 @@ _vte_terminal_connect_pty_write(VteTerminal *terminal)
 	}
 }
 
-static void
-_vte_terminal_disconnect_pty_read(VteTerminal *terminal)
+void
+vte_terminal_disconnect_pty_read(VteTerminal *terminal)
 {
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
 	if (terminal->pvt->pty_input_source != 0) {
 		_vte_debug_print (VTE_DEBUG_IO, "disconnecting poll of vte_terminal_io_read\n");
 		g_source_remove(terminal->pvt->pty_input_source);
@@ -6717,7 +6718,7 @@ vte_terminal_start_selection(VteTerminal *terminal, long x, long y,
         vte_terminal_extend_selection(terminal, x, y, FALSE, TRUE);
 
 	/* Temporarily stop caring about input from the child. */
-	_vte_terminal_disconnect_pty_read(terminal);
+	vte_terminal_disconnect_pty_read(terminal);
 }
 
 static gboolean
@@ -6734,7 +6735,7 @@ _vte_terminal_maybe_end_selection (VteTerminal *terminal)
 		terminal->pvt->selecting = FALSE;
 
 		/* Reconnect to input from the child if we paused it. */
-		_vte_terminal_connect_pty_read(terminal);
+		vte_terminal_connect_pty_read(terminal);
 
 		return TRUE;
 	}
@@ -8899,7 +8900,7 @@ vte_terminal_finalize(GObject *object)
 #endif
 		kill(terminal->pvt->pty_pid, SIGHUP);
 	}
-	_vte_terminal_disconnect_pty_read(terminal);
+	vte_terminal_disconnect_pty_read(terminal);
 	_vte_terminal_disconnect_pty_write(terminal);
 	if (terminal->pvt->pty_channel != NULL) {
 		g_io_channel_unref (terminal->pvt->pty_channel);
@@ -12456,7 +12457,7 @@ vte_terminal_set_pty(VteTerminal *terminal,
         g_object_freeze_notify(object);
 
         if (pvt->pty != NULL) {
-                _vte_terminal_disconnect_pty_read(terminal);
+                vte_terminal_disconnect_pty_read(terminal);
                 _vte_terminal_disconnect_pty_write(terminal);
 
                 if (terminal->pvt->pty_channel != NULL) {
@@ -12510,7 +12511,7 @@ vte_terminal_set_pty(VteTerminal *terminal,
         _vte_terminal_setup_utf8 (terminal);
 
         /* Open channels to listen for input on. */
-        _vte_terminal_connect_pty_read (terminal);
+        vte_terminal_connect_pty_read (terminal);
 
         g_object_notify(object, "pty");
 
