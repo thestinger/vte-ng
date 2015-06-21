@@ -176,6 +176,10 @@ void vte_terminal_paste_primary(VteTerminal *terminal) _VTE_GNUC_NONNULL(1);
 void vte_terminal_select_all(VteTerminal *terminal) _VTE_GNUC_NONNULL(1);
 void vte_terminal_unselect_all(VteTerminal *terminal) _VTE_GNUC_NONNULL(1);
 
+/* pause and unpause output */
+void vte_terminal_disconnect_pty_read(VteTerminal *vte);
+void vte_terminal_connect_pty_read(VteTerminal *vte);
+
 /* By-word selection */
 void vte_terminal_set_word_char_exceptions(VteTerminal *terminal,
                                            const char *exceptions) _VTE_GNUC_NONNULL(1);
