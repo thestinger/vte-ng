@@ -7005,6 +7005,24 @@ vte_terminal_unselect_all(VteTerminal *terminal)
 	vte_terminal_deselect_all (terminal);
 }
 
+
+/**
+ * vte_terminal_select_text:
+ * @terminal: a #VteTerminal
+ * @start_col: the starting column for the selection
+ * @start_row: the starting row for the selection
+ * @end_col: the end column for the selection
+ * @end_row: the end row for the selection
+ *
+ * Sets the current selection region.
+ */
+void
+vte_terminal_select_text(VteTerminal *terminal,
+			 long start_col, long start_row,
+			 long end_col, long end_row) {
+	_vte_terminal_select_text(terminal, start_col, start_row, end_col, end_row, 0, 0);
+}
+
 /* Autoscroll a bit. */
 static gboolean
 vte_terminal_autoscroll(VteTerminal *terminal)
