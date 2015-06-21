@@ -1444,7 +1444,7 @@ vte_terminal_accessible_get_selection(AtkText *text, gint selection_number,
 	*start_offset = offset_from_xy (priv, start_x, start_y);
 	_vte_terminal_get_end_selection (terminal, &end_x, &end_y);
 	*end_offset = offset_from_xy (priv, end_x, end_y);
-	return _vte_terminal_get_selection (terminal);
+	return vte_terminal_get_selection (terminal);
 }
 
 static gboolean

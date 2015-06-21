@@ -12343,7 +12343,7 @@ _vte_terminal_accessible_ref(VteTerminal *terminal)
 }
 
 char *
-_vte_terminal_get_selection(VteTerminal *terminal)
+vte_terminal_get_selection(VteTerminal *terminal)
 {
 	g_return_val_if_fail(VTE_IS_TERMINAL(terminal), NULL);
 
