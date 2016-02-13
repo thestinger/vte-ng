@@ -2570,6 +2570,13 @@ vte_terminal_select_text(VteTerminal *terminal,
         IMPL(terminal)->select_text(start_col, start_row, end_col, end_row);
 }
 
+char *
+vte_terminal_get_selection(VteTerminal *terminal)
+{
+	g_return_val_if_fail(VTE_IS_TERMINAL(terminal), NULL);
+	return g_strdup (IMPL(terminal)->m_selection[VTE_SELECTION_PRIMARY]->str);
+}
+
 /**
  * vte_terminal_get_cursor_position:
  * @terminal: a #VteTerminal
