@@ -347,6 +347,11 @@ _VTE_PUBLIC
 void vte_terminal_get_cursor_position(VteTerminal *terminal,
 				      glong *column,
                                       glong *row) _VTE_GNUC_NONNULL(1);
+_VTE_PUBLIC
+void vte_terminal_set_cursor_position(VteTerminal *terminal,
+                                      glong column,
+                                      glong row) _VTE_GNUC_NONNULL(1);
+
 
 /* Add a matching expression, returning the tag the widget assigns to that
  * expression. */
