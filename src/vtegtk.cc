@@ -2918,6 +2918,32 @@ vte_terminal_feed_child(VteTerminal *terminal,
 }
 
 /**
+ * vte_terminal_connect_pty_read:
+ * @terminal: a #VteTerminal
+ *
+ * Unpause output
+ */
+void
+vte_terminal_connect_pty_read(VteTerminal *terminal)
+{
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
+	IMPL(terminal)->connect_pty_read();
+}
+
+/**
+ * vte_terminal_disconnect_pty_read:
+ * @terminal: a #VteTerminal
+ *
+ * Pause output
+ */
+void
+vte_terminal_disconnect_pty_read(VteTerminal *terminal)
+{
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
+	IMPL(terminal)->disconnect_pty_read();
+}
+
+/**
  * vte_terminal_feed_child_binary:
  * @terminal: a #VteTerminal
  * @data: (array length=length) (element-type guint8) (allow-none): data to send to the child
