@@ -171,6 +171,12 @@ void vte_terminal_feed_child(VteTerminal *terminal,
                              const char *text,
                              gssize length) _VTE_GNUC_NONNULL(1);
 
+_VTE_PUBLIC
+void vte_terminal_connect_pty_read(VteTerminal *terminal);
+
+_VTE_PUBLIC
+void vte_terminal_disconnect_pty_read(VteTerminal *terminal);
+
 /* Copy currently-selected text to the clipboard, or from the clipboard to
  * the terminal. */
 _VTE_PUBLIC
