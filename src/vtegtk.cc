@@ -2526,6 +2526,26 @@ vte_terminal_unselect_all(VteTerminal *terminal)
 }
 
 /**
+ * vte_terminal_select_text:
+ * @terminal: a #VteTerminal
+ * @start_col: the starting column for the selection
+ * @start_row: the starting row for the selection
+ * @end_col: the end column for the selection
+ * @end_row: the end row for the selection
+ *
+ * Sets the current selection region.
+ */
+void
+vte_terminal_select_text(VteTerminal *terminal,
+		         long start_col, long start_row,
+			 long end_col, long end_row)
+{
+	g_return_if_fail (VTE_IS_TERMINAL (terminal));
+
+        IMPL(terminal)->select_text(start_col, start_row, end_col, end_row);
+}
+
+/**
  * vte_terminal_get_cursor_position:
  * @terminal: a #VteTerminal
  * @column: (out) (allow-none): a location to store the column, or %NULL
