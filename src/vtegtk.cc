@@ -2524,6 +2524,31 @@ vte_terminal_unselect_all(VteTerminal *terminal)
 
         IMPL(terminal)->deselect_all();
 }
+/**
+ * vte_terminal_get_selection_block_mode:
+ * @terminal: a #VteTerminal
+ *
+ * Checks whether or not block selection is enabled.
+ *
+ * Returns: %TRUE if block selection is enabled, %FALSE if not
+ */
+
+gboolean vte_terminal_get_selection_block_mode(VteTerminal *terminal) {
+        g_return_val_if_fail(VTE_IS_TERMINAL(terminal), FALSE);
+	return IMPL(terminal)->m_selection_block_mode;
+}
+/**
+ * vte_terminal_set_selection_block_mode:
+ * @terminal: a #VteTerminal
+ * @block_mode: whether block selection is enabled
+ *
+ * Sets whether or not block selection is enabled.
+ */
+void
+vte_terminal_set_selection_block_mode(VteTerminal *terminal, gboolean block_mode) {
+	g_return_if_fail (VTE_IS_TERMINAL (terminal));
+	IMPL(terminal)->m_selection_block_mode = block_mode;
+}
 
 /**
  * vte_terminal_select_text:
