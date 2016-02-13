@@ -2553,6 +2553,30 @@ vte_terminal_get_cursor_position(VteTerminal *terminal,
 }
 
 /**
+ * vte_terminal_set_cursor_position
+ * @terminal: a #VteTerminal
+ * @column: the new cursor column
+ * @row: the new cursor row
+ *
+ * Set the location of the cursor.
+ */
+void
+vte_terminal_set_cursor_position(VteTerminal *terminal,
+		                 long column, long row)
+{
+	g_return_if_fail(VTE_IS_TERMINAL(terminal));
+
+        auto impl = IMPL(terminal);
+	impl->invalidate_cursor_once(FALSE);
+	impl->m_screen->cursor.col = column;
+	impl->m_screen->cursor.row = row;
+	impl->invalidate_cursor_once(FALSE);
+	impl->check_cursor_blink();
+	impl->queue_cursor_moved();
+
+}
+
+/**
  * vte_terminal_pty_new_sync:
  * @terminal: a #VteTerminal
  * @flags: flags from #VtePtyFlags
