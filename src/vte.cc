@@ -10871,10 +10871,6 @@ VteTerminalPrivate::invalidate_dirty_rects_and_process_updates()
         gtk_widget_queue_draw_region(m_widget, region);
 	cairo_region_destroy (region);
 
-	gdk_window_process_updates(gtk_widget_get_window(m_widget), FALSE);
-
-	_vte_debug_print (VTE_DEBUG_WORK, "-");
-
 	return true;
 }
 
@@ -10910,14 +10906,6 @@ update_repeat_timeout (gpointer data)
 		if (!again) {
                         remove_from_active_list(that);
 		}
-	}
-
-
-	if (g_active_terminals != nullptr) {
-		/* remove the idle source, and draw non-Terminals
-		 * (except for gdk/{directfb,quartz}!)
-		 */
-		gdk_window_process_all_updates ();
 	}
 
 	_vte_debug_print (VTE_DEBUG_WORK, "]");
@@ -10964,7 +10952,6 @@ static gboolean
 update_timeout (gpointer data)
 {
 	GList *l, *next;
-	gboolean redraw = FALSE;
 
         G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
 	gdk_threads_enter();
@@ -10990,14 +10977,7 @@ update_timeout (gpointer data)
 
                 that->process(true);
 
-		redraw |= that->invalidate_dirty_rects_and_process_updates();
-	}
-
-	if (redraw) {
-		/* remove the idle source, and draw non-Terminals
-		 * (except for gdk/{directfb,quartz}!)
-		 */
-		gdk_window_process_all_updates ();
+                that->invalidate_dirty_rects_and_process_updates();
 	}
 
 	_vte_debug_print (VTE_DEBUG_WORK, "}");
