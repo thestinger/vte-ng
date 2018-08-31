@@ -5,6 +5,7 @@ and a minimal sample application (vte) using that.  Vte is mainly used in
 gnome-terminal, but can also be used to embed a console/terminal in games,
 editors, IDEs, etc.
 
-VTE doesn't have a homepage.  Report any issues at:
-
-  http://bugzilla.gnome.org/enter_bug.cgi?product=vte
+Project page for VTE: 
+  https://gitlab.gnome.org/GNOME/vte
+Report VTE issues at:
+  https://gitlab.gnome.org/GNOME/vte/issues
