@@ -221,15 +221,27 @@ if get_option('gtk3')
   libvte_gtk3_deps = libvte_common_deps + [gtk3_dep]
   libvte_gtk3_public_deps = libvte_common_public_deps + [gtk3_dep]
 
-  libvte_gtk3 = shared_library(
-    vte_gtk3_api_name,
-    sources: libvte_gtk3_sources,
-    version: libvte_gtk3_soversion,
-    include_directories: incs,
-    dependencies: libvte_gtk3_deps,
-    cpp_args: libvte_gtk3_cppflags,
-    install: true,
-  )
+  if get_option('static')
+    libvte_gtk3 = static_library(
+      vte_gtk3_api_name,
+      sources: libvte_gtk3_sources,
+      version: libvte_gtk3_soversion,
+      include_directories: incs,
+      dependencies: libvte_gtk3_deps,
+      cpp_args: libvte_gtk3_cppflags,
+      install: true,
+    )
+  else
+    libvte_gtk3 = shared_library(
+      vte_gtk3_api_name,
+      sources: libvte_gtk3_sources,
+      version: libvte_gtk3_soversion,
+      include_directories: incs,
+      dependencies: libvte_gtk3_deps,
+      cpp_args: libvte_gtk3_cppflags,
+      install: true,
+    )
+  endif
 
   libvte_gtk3_dep = declare_dependency(
     sources: libvte_gtk3_public_headers,

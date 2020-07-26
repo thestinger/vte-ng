@@ -98,3 +98,10 @@ option(
   value: true,
   description: 'Enable Vala bindings',
 )
+
+option(
+  'static',
+  type: 'boolean',
+  value: false,
+  description: 'Build as a static library',
+)
